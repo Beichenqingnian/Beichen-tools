@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>嘿卡</title>
+
+    <!--CSS-->
+    <link rel="stylesheet" type="text/css" href="static/css/common.css">
+    <link rel="stylesheet" type="text/css" href="static/bootstrap-3.3.7/css/bootstrap.min.css">
+    <style type="text/css">
+
+    </style>
+
+    <!--JS-->
+    <script type="text/javascript" src="static/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script type="text/javascript" src="static/js/vue.min.js"></script>
+    <script type="text/javascript" src="static/bootstrap-3.3.7/js/bootstrap.min.js" ></script>
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-default navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="javascript:void(0)">嘿卡管理后台</a>
+        </div>
+    </div>
+</nav>
+
+    <div id="content" class="row">
+        <div class="col-md-2">
+            <div class="alert alert-info" role="alert">卡牌管理</div>
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation" class="active"><a href="#">卡牌类型管理</a></li>
+                <li role="presentation"><a href="#">卡牌管理</a></li>
+                <li role="presentation"><a href="#">留言管理</a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-10">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">卡牌类型管理</div>
+                <div class="panel-body">
+                    <p><button class="btn btn-primary" id="btn_newCardType">新建类型</button></p>
+                </div>
+                <table class="table" id="table_cardType">
+                    <thead>
+                        <tr><th>编号</th><th>类型名称</th><th>类型图片</th><th>操作</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>三观蹦迪</td><td><img style="background:#000000" src="../static/images/buttons/button_1.png"></td>
+                            <td><button class="btn btn-link edit" cardTypeId="1" cardTypeName="脑洞狂欢" cardTypeImg="../static/images/buttons/button_1.png">编辑</button></td>
+                        </tr>
+                        <tr><td>2</td><td>脑洞狂欢</td><td><img style="background:#000000" src="../static/images/buttons/button_2.png"></td><td>
+                            <button class="btn btn-link edit" cardTypeId="2" cardTypeName="故事胶囊" cardTypeImg="../static/images/buttons/button_2.png">编辑</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal_editCardType" tabindex="-1" role="dialog" aria-labelledby="title_editCardType">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="title_editCardType">编辑卡牌类型</h4>
+            </div>
+            <div class="modal-body row">
+                <form class="col-md-10 .col-md-offset-1">
+                    <div class="form-group">
+                        <label >卡牌类型编号:<span class="" id="txt_cardTypeId"></span></label>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="txt_carcTypeName">卡牌类型名称</label>
+                        <input type="email" class="form-control" id="txt_carcTypeName" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputFile">卡牌类型按钮</label>
+
+                        <input type="file" id="exampleInputFile">
+                        <p class="help-block">图片规格:</p>
+                        <img id="img_cardTypeIme" src="" style="background:#000000"/>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+<script type="text/javascript">
+
+    var bindNewCardType = function(){
+        $("#btn_newCardType").click(function(){
+            let cardTypeId = $("#table_cardType td .edit").length+1;
+            //展示模态框
+            $("#modal_editCardType").modal({});
+            $("#txt_cardTypeId").text(cardTypeId);
+            $("#txt_cardTypeName").val("");
+            $("#img_cardTypeIme").attr("src","");
+        })
+    }
+
+    var bindEditCardType = function(){
+        $("#table_cardType td .edit").click(function(){
+            let cardTypeId = $(this).attr("cardTypeId");
+//            alert(cardTypeId)
+            let cardTypeName = $(this).attr("cardTypeName");
+            let cardTypeImg = $(this).attr("cardTypeImg");
+            //展示模态框
+            $("#modal_editCardType").modal({});
+            $("#txt_cardTypeId").text(cardTypeId);
+            $("#txt_cardTypeName").val(cardTypeName);
+            $("#img_cardTypeIme").attr("src",cardTypeImg);
+
+
+
+        });
+    };
+
+    $(document).ready(function(){
+        bindNewCardType();
+        bindEditCardType();
+
+
+    });
+
+</script>
+
+<!--<script>-->
+    <!--var _hmt = _hmt || [];-->
+    <!--(function() {-->
+        <!--var hm = document.createElement("script");-->
+        <!--hm.src = "https://hm.baidu.com/hm.js?dd9f36504b1b1dd792c8952982096697";-->
+        <!--var s = document.getElementsByTagName("script")[0];-->
+        <!--s.parentNode.insertBefore(hm, s);-->
+    <!--})();-->
+<!--</script>-->
+
+</html>
