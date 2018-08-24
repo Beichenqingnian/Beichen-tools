@@ -41,15 +41,15 @@
             <div class="alert alert-info" role="alert">卡牌管理</div>
             <ul class="nav nav-pills nav-stacked">
                 <li role="presentation"><a href="#">卡牌类型管理</a></li>
-                <li role="presentation" class="active"><a href="#">卡牌管理</a></li>
-                <li role="presentation"><a href="#">留言管理</a></li>
+                <li role="presentation"><a href="#">卡牌管理</a></li>
+                <li role="presentation" class="active"><a href="#">留言管理</a></li>
             </ul>
         </div>
 
         <div class="col-md-10">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
-                <div class="panel-heading">卡牌管理</div>
+                <div class="panel-heading">留言管理</div>
                 <div class="panel-body">
                     <form class="col-md-12 ">
                         <div class="form-groud col-md-3">
@@ -81,15 +81,13 @@
                 </div>
                 <table class="table" id="table_cardList">
                     <thead>
-                        <tr><th>卡牌编号</th><th>卡牌标题</th><th>缩略图</th><th>卡牌类型</th><th>操作</th></tr>
+                        <tr><th>留言编号</th><th>留言内容</th><th>留言者</th><th>留言时间</th><th>操作</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>1-1</td><td>三观蹦迪01</td><td><img class="img-thumbnail card-press" src="../static/images/cards/1/1.png"></td><td>三观蹦迪</td>
-                            <td><button class="btn btn-default edit" cardId="1-1" cardTitle="三观蹦迪01" cardImg="../static/images/cards/1/1.png" cardType="1">编辑</button></td>
+                        <tr><td>1-1</td><td>三观蹦迪01</td><td>张三</td><td>2018-11-11 15:00:00</td>
+                            <td><button class="btn btn-primary">查看留言回复</button></td>
                         </tr>
-                        <tr><td>2-1</td><td>脑洞狂欢</td><td><img class="img-thumbnail card-press" src="../static/images/cards/2/1.png"></td><td>脑洞狂欢</td><td>
-                            <button class="btn btn-default edit" cardId="2-1" cardTitle="脑洞狂欢01" cardImg="../static/images/cards/2/1.png" cardType="2">编辑</button></td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -99,50 +97,7 @@
     </div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="modal_editCard" tabindex="-1" role="dialog" aria-labelledby="title_editCard">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="title_editCard">编辑卡牌类型</h4>
-            </div>
-            <div class="modal-body row">
-                <form class="col-md-10 .col-md-offset-1">
-                    <div class="form-group">
-                        <label for="txt_cardId">卡牌类型编号</label>
-                        <input type="text" class="form-control" id="txt_cardId" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label for="txt_cardTitle">卡牌类型名称</label>
-                        <input type="text" class="form-control" id="txt_cardTitle" placeholder="">
-                    </div>
-                    <div class="form-group">
-                        <label for="sel_cardType">卡牌类型</label>
-                        <select class="form-control" id="sel_cardType">
 
-                            <option value="1">三观蹦迪</option>
-                            <option value="2">脑洞狂欢</option>
-
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputFile">卡牌类型按钮</label>
-
-                        <input type="file" id="exampleInputFile">
-                        <p class="help-block">图片规格:</p>
-                        <img id="img_cardImg" src="" style="background:#000000"/>
-                    </div>
-
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">保存</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 </body>

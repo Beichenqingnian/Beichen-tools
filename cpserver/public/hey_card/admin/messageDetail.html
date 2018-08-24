@@ -51,41 +51,24 @@
                 <!-- Default panel contents -->
                 <div class="panel-heading">留言管理</div>
                 <div class="panel-body">
-                    <form class="col-md-12 ">
-                        <div class="form-groud col-md-3">
-                            <label for="search_cardNum">卡牌编号</label>
-                            <input type="text" class="form-control" id="search_cardNum" placeholder="">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="search_cardTitle">卡牌标题</label>
-                            <input type="text" class="form-control" id="search_cardTitle" placeholder="">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="search_cardType">卡牌类型</label>
-
-                            <select class="form-control" id="search_cardType">
-                                <option value="0">全部</option>
-                                <option value="1">三观蹦迪</option>
-                                <option value="2">脑洞狂欢</option>
-
-                            </select>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <button class="btn btn-default">搜索</button>
-                        </div>
-                    </form>
+                    <div>
+                        <p>留言内容:</p>
+                        <p>如果你没有办法荆州区</p>
+                        <p>留言人:<span>张三</span></p>
+                        <p>留言时间:<span>2018-11-11 15:00:00</span></p>
+                    </div>
 
                     <div class="">
-                        <button class="btn btn-primary" id="btn_newCard">新建卡牌</button>
+                        <button class="btn btn-primary" id="btn_sealMessage">屏蔽此留言</button>
                     </div>
                 </div>
-                <table class="table" id="table_cardList">
+                <table class="table" id="table_replyList">
                     <thead>
-                        <tr><th>留言编号</th><th>留言内容</th><th>留言者</th><th>留言时间</th><th>操作</th></tr>
+                        <tr><th class="col-md-6">回复内容</th><th>回复者</th><th>回复时间</th><td>状态</td><th>操作</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>1-1</td><td>三观蹦迪01</td><td>张三</td><td>2018-11-11 15:00:00</td>
-                            <td><button class="btn btn-primary">查看留言回复</button></td>
+                        <tr><td>法院在财产保全和强制执行中，为了防止被申请人或被执行人转移、隐匿或者毁坏相应的财产，将这些财产清点登记，加贴封条，就地封存，不准被申请人或被执行人擅自处理或者移动</td><td>李四</td><td>2018-11-11 15:00:00</td><td>正常</td>
+                            <td><button class="btn btn-primary" class="btn_sealReply">屏蔽此回复</button></td>
                         </tr>
 
                     </tbody>
@@ -104,40 +87,13 @@
 
 <script type="text/javascript">
 
-    var bindNewCard = function(){
-        $("#btn_newCard").click(function(){
 
-            //展示模态框
-            $("#modal_editCard").modal({});
-
-            $("#txt_cardId").val("");
-            $("#txt_cardTitle").val("");
-            $("#sel_cardType").val("1");
-            $("#img_cardImg").attr("src","");
-        })
-    }
-
-    var bindEditCard = function(){
-        $("#table_cardList td .edit").click(function(){
-            let cardId = $(this).attr("cardId");
-            let cardTitle = $(this).attr("cardTitle");
-            let cardImg = $(this).attr("cardImg");
-            let cardType= $(this).attr("cardType")
-            //展示模态框
-
-            $("#txt_cardId").val(cardId);
-            $("#txt_cardTitle").val(cardTitle);
-            $("#sel_cardType").val(cardType);
-            $("#img_cardImg").attr("src",cardImg);
-
-            $("#modal_editCard").modal({});
-
-        });
-    };
 
     $(document).ready(function(){
-        bindNewCard();
-        bindEditCard();
+        //绑定屏蔽留言的按钮
+        $("#btn_sealMessage").click(function(){
+
+        });
 
 
     });

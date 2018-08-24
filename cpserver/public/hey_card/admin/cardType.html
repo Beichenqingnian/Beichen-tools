@@ -34,20 +34,111 @@
             <div class="alert alert-info" role="alert">卡牌管理</div>
             <ul class="nav nav-pills nav-stacked">
                 <li role="presentation" class="active"><a href="#">卡牌类型管理</a></li>
-                <li role="presentation"><a href="#">Profile</a></li>
-                <li role="presentation"><a href="#">Messages</a></li>
+                <li role="presentation"><a href="#">卡牌管理</a></li>
+                <li role="presentation"><a href="#">留言管理</a></li>
             </ul>
+        </div>
+
+        <div class="col-md-10">
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">卡牌类型管理</div>
+                <div class="panel-body">
+                    <p><button class="btn btn-primary" id="btn_newCardType">新建类型</button></p>
+                </div>
+                <table class="table" id="table_cardType">
+                    <thead>
+                        <tr><th>编号</th><th>类型名称</th><th>类型图片</th><th>操作</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>三观蹦迪</td><td><img style="background:#000000" src="../static/images/buttons/button_1.png"></td>
+                            <td><button class="btn btn-link edit" cardTypeId="1" cardTypeName="脑洞狂欢" cardTypeImg="../static/images/buttons/button_1.png">编辑</button></td>
+                        </tr>
+                        <tr><td>2</td><td>脑洞狂欢</td><td><img style="background:#000000" src="../static/images/buttons/button_2.png"></td><td>
+                            <button class="btn btn-link edit" cardTypeId="2" cardTypeName="故事胶囊" cardTypeImg="../static/images/buttons/button_2.png">编辑</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
 
     </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="modal_editCardType" tabindex="-1" role="dialog" aria-labelledby="title_editCardType">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="title_editCardType">编辑卡牌类型</h4>
+            </div>
+            <div class="modal-body row">
+                <form class="col-md-10 .col-md-offset-1">
+                    <div class="form-group">
+                        <label >卡牌类型编号:<span class="" id="txt_cardTypeId"></span></label>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="txt_cardTypeName">卡牌类型名称</label>
+                        <input type="email" class="form-control" id="txt_cardTypeName" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputFile">卡牌类型按钮</label>
+
+                        <input type="file" id="exampleInputFile">
+                        <p class="help-block">图片规格:</p>
+                        <img id="img_cardTypeImg" src="" style="background:#000000"/>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 
 <script type="text/javascript">
 
+    var bindNewCardType = function(){
+        $("#btn_newCardType").click(function(){
+            let cardTypeId = $("#table_cardType td .edit").length+1;
+            //展示模态框
+            $("#modal_editCardType").modal({});
+            $("#txt_cardTypeId").text(cardTypeId);
+            $("#txt_cardTypeName").val("");
+            $("#img_cardTypeImg").attr("src","");
+        })
+    }
+
+    var bindEditCardType = function(){
+        $("#table_cardType td .edit").click(function(){
+            let cardTypeId = $(this).attr("cardTypeId");
+//            alert(cardTypeId)
+            let cardTypeName = $(this).attr("cardTypeName");
+            let cardTypeImg = $(this).attr("cardTypeImg");
+            //展示模态框
+            $("#modal_editCardType").modal({});
+            $("#txt_cardTypeId").text(cardTypeId);
+            $("#txt_cardTypeName").val(cardTypeName);
+            $("#img_cardTypeImg").attr("src",cardTypeImg);
+
+
+
+        });
+    };
 
     $(document).ready(function(){
+        bindNewCardType();
+        bindEditCardType();
 
 
     });
