@@ -6,6 +6,7 @@
 
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="static/css/common.css">
+    <link rel="stylesheet" type="text/css" href="static/bootstrap-3.3.7/css/bootstrap.min.css">
 
 
 
@@ -52,7 +53,7 @@
         }
 
             #block_message .title {
-                /*font-size:40px;*/
+                font-size:34px;
             }
 
         #btn_showSubmitMessage {
@@ -79,7 +80,7 @@
             }
 
                 #messageList .item .text {
-                    font-size:24px;
+                    font-size:32px;
                     /*line-height:1.5em;*/
                     padding-bottom:15px;
                 }
@@ -98,12 +99,16 @@
                     line-height: 50px;
                     font-size:32px;
                 }
+        #dialog_leaveMessage .modal-dialog h4, #dialog_leaveMessage .modal-dialog button, #dialog_leaveMessage .modal-dialog textarea {
+            font-size:32px;
+        }
 
     </style>
 
     <!--JS-->
     <script type="text/javascript" src="static/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script type="text/javascript" src="static/bootstrap-3.3.7/js/bootstrap.min.js" ></script>
 
 </head>
 <body>
@@ -126,7 +131,7 @@
         <div id="block_message" class="">
             <p class="title">
                 <span>大家的想法:</span>
-                <a id="btn_showSubmitMessage">发表想法</a>
+                <a id="btn_showSubmitMessage" data-toggle="modal" data-target="#dialog_leaveMessage">发表想法</a>
             </p>
 
             <ul id="messageList" class="">
@@ -148,6 +153,28 @@
         </div>
 
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade bs-example-modal-lg" id="dialog_leaveMessage" tabindex="-1" role="dialog" aria-labelledby="lbl_leaveMessage">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="lbl_leaveMessage">发表你的想法</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control" rows="5" placeholder="最多可以输入800字"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </body>
 
 <script type="text/javascript">
@@ -199,6 +226,12 @@
         else {
             $("#btn_again").attr("href","card.html?cardType=" + Global.cardType);
         }
+
+        //点击发表留言按钮
+        $("#btn_showSubmitMessage").click(function(){
+
+        });
+
 
         //加载微信分享
         $.ajax({
