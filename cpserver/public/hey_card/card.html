@@ -109,6 +109,7 @@
     <script type="text/javascript" src="static/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
     <script type="text/javascript" src="static/bootstrap-3.3.7/js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="static/js/global.js"></script>
 
 </head>
 <body>
@@ -135,20 +136,20 @@
             </p>
 
             <ul id="messageList" class="">
-                <li class="item">
-                    <p class="text">如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。</p>
-                    <div class="publisher">
-                        <img class="head" src="https://pro.modao.cc/uploads3/images/1657/16575186/raw_1516269408.png" />
-                        <p class="name">薛定谔的猫儿</p>
-                    </div>
-                </li>
-                <li class="item">
-                    <p class="text">如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。</p>
-                    <div class="publisher">
-                        <img class="head" src="https://pro.modao.cc/uploads3/images/1657/16575186/raw_1516269408.png" />
-                        <p class="name">薛定谔的猫儿</p>
-                    </div>
-                </li>
+                <!--<li class="item">-->
+                    <!--<p class="text">如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。</p>-->
+                    <!--<div class="publisher">-->
+                        <!--<img class="head" src="https://pro.modao.cc/uploads3/images/1657/16575186/raw_1516269408.png" />-->
+                        <!--<p class="name">薛定谔的猫儿</p>-->
+                    <!--</div>-->
+                <!--</li>-->
+                <!--<li class="item">-->
+                    <!--<p class="text">如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。如果你无法简洁的表达你的想法，那只说明你还不够了解它。</p>-->
+                    <!--<div class="publisher">-->
+                        <!--<img class="head" src="https://pro.modao.cc/uploads3/images/1657/16575186/raw_1516269408.png" />-->
+                        <!--<p class="name">薛定谔的猫儿</p>-->
+                    <!--</div>-->
+                <!--</li>-->
             </ul>
         </div>
 
@@ -164,11 +165,11 @@
                     <h4 class="modal-title" id="lbl_leaveMessage">发表你的想法</h4>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" rows="5" placeholder="最多可以输入800字"></textarea>
+                    <textarea id="txt_message" class="form-control" rows="5" placeholder="最多可以输入800字"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary">保存</button>
+                    <button id="sub_message" type="button" class="btn btn-primary">保存</button>
                 </div>
             </div>
         </div>
@@ -180,44 +181,140 @@
 <script type="text/javascript">
 
     var Global = {
-        cardTotal : 12,
-        cardType : 0,
-        cardTypeTotal : 5,
+        card : {
+            t_id :0,
+            c_id:-1
+        },
         isCardTypeRandom : 0
     };
 
-    var Tools = {
-        getQuery :function (variable){
-            var query = window.location.search.substring(1);
-            var vars = query.split("&");
-            for (var i=0;i<vars.length;i++) {
-                var pair = vars[i].split("=");
-                if(pair[0] == variable){return pair[1];}
+    console.log(Tools.getQuery("t_id"));
+
+    //渲染卡片
+    var initCardInfo = function(){
+        $("#img_card").attr("src",Global.card.pic);
+    };
+
+
+    //加载留言
+    var initMessage = function(){
+
+       let url = "/api/hc/client/getcomment?c_id=" + Global.card.c_id;
+//        let url = "/api/hc/client/getcomment?c_id=28";
+
+        $.ajax({
+            method:"get",
+            url: config.hostUrl + url,
+            data:{},
+            success:function(json){
+                if(json.errcode == 0){
+                    console.log("加载留言成功");
+                    console.log(json);
+
+                    let str = "";
+
+                    for(let i=0;i<json.data.length;i++){
+                        str += '<li class="item" comment-id="'+json.data[i].comment_id+'">'
+                                +  '<p class="text">'+json.data[i].comment+'</p>'
+                                +  '<div class="publisher">'
+                                +  '<img class="head" src="'+json.data[i].headimgurl+'" />'
+                                +  '<p class="name">'+json.data[i].nickname+'</p>'
+                                +  '</div></li>';
+                    }
+                    $("#messageList").html(str);
+
+                }
+                else {
+                    console.log("加载留言失败,"+json.errmsg)
+                }
+                //渲染页面
+                initCardInfo()
+            },
+            error:function(){
+
             }
-            return false;
-        }
+        });
     }
-
-    console.log(Tools.getQuery("type"));
-    if(Tools.getQuery("type")){
-        Global.cardType == Tools.getQuery("type");
-    }
-
-
-    //如果卡的类别为0,则随机抽取一个卡号
-    if(Global.cardType == 0){
-        Global.cardType = Math.floor(Math.random() * Global.cardTypeTotal + 1);
-        Global.isCardTypeRandom = 1;
-    }
-
-    //随机抽一张卡号
-    Global.cardNum = Math.floor(Math.random() * Global.cardTotal + 1);
-//    console.log(Global.cardNum);
-
 
     $(document).ready(function(){
-        //抽卡,改变卡的路径
-        $("#img_card").attr("src","static/images/cards/"+Global.cardType+"/"+Global.cardNum+".png");
+
+
+
+        //加载页面路径参数数据
+        if(Tools.getQuery("t_id")){
+            Global.card.t_id = Tools.getQuery("t_id");
+            let url = "";
+
+            if(Tools.getQuery("c_id") == undefined){
+                //没有c_id,随机这个类别的一张抽卡
+                url = "/api/hc/client/getcardrandom?t_id=" + Global.card.t_id;
+                $.ajax({
+                    method:"get",
+                    url: config.hostUrl + url,
+                    data:{},
+                    success:function(json){
+                        console.log(json);
+                        if(json.errcode == 0){
+                            console.log("随机抽卡成功");
+                            console.log(json);
+                            Global.card = json.data;
+
+                            //渲染页面
+                            initCardInfo();
+
+                            //加载留言
+                            initMessage();
+                        }
+                        else {
+                            console.log("抽卡失败,"+json.errmsg)
+                        }
+
+                    },
+                    error:function(){
+
+                    }
+                });
+
+            }
+            else {
+                Global.card.c_id = Tools.getQuery("c_id");
+                //获取这张卡的信息
+
+                url = "/api/hc/client/getcard?t_id=" + Global.card.t_id + "&c_id=" + Global.card.c_id;
+                $.ajax({
+                    method:"get",
+                    url: config.hostUrl + url,
+                    data:{},
+                    success:function(json){
+                        console.log(json);
+                        if(json.errcode == 0){
+                            console.log("读取卡牌信息成功");
+                            console.log(json);
+                            Global.card = json.data[0];
+
+                            //渲染页面
+                            initCardInfo();
+
+                            //加载留言
+                            initMessage();
+                        }
+                        else {
+                            console.log("抽卡失败,"+json.errmsg)
+                        }
+
+                    },
+                    error:function(){
+
+                    }
+                });
+
+
+            }
+
+            //加载卡的信息
+        }
+
+
 
         //绑定再抽一次按钮
         if(Global.isCardTypeRandom){
@@ -227,11 +324,36 @@
             $("#btn_again").attr("href","card.html?cardType=" + Global.cardType);
         }
 
-        //点击发表留言按钮
-        $("#btn_showSubmitMessage").click(function(){
+        //点击提交留言
+        $("#sub_message").click(function(){
+
+            let ajaxData = {
+                comment : $("#dialog_leaveMessage #txt_message").val(),
+                c_id : Global.card.c_id
+            }
+            let url = "/api/hc/client/addcomment";
+            $.ajax({
+                method:"POST",
+                url: config.hostUrl + url,
+                data:ajaxData,
+                success:function(json){
+                    console.log(json);
+                    if(json.errcode == 0){
+                        alert("提交留言成功");
+                        $("#dialog_leaveMessage").modal("hide");
+                        $("#dialog_leaveMessage #txt_message").val("");
+                    }
+                    else {
+                        alert("提交留言,"+json.errmsg)
+                    }
+
+                },
+                error:function(){
+
+                }
+            });
 
         });
-
 
         //加载微信分享
         $.ajax({

@@ -87,9 +87,53 @@
 
 <script type="text/javascript">
 
+    var bindMessageDetail = function(){
+        $.ajax({
+            method:"get",
+            url:config.hostUrl + "/api/hc/manage/getcomment?c_id=",
+            data:{},
+            success:function(json){
+                console.log(json);
+                if(json.errcode == 0){
+
+                    let str = "";
+
+                    for(let i=0;i<json.data.length;i++){
+                        //设置页面
+                        str += '<option value="'+json.data[i].t_id+'">'+json.data[i].name+'</option>';
+                        //改造卡牌类别数组的映射关系
+                        cardType[json.data[i].t_id]={
+                            type_id:json.data[i].type_id,
+                            name:json.data[i].name
+                        };
+                    }
+
+                    //自动调整类别编号
+                    $("#sel_cardType").change(function(){
+                        let txt = cardType[$("#sel_cardType").val()].type_id + "-";
+                        $("#txt_cardId").val(txt);
+                    });
+
+                    str ='<option value="0">全部</option>' + str;
+                    $("#search_cardType").html(str);
+
+                }
+                else {
+                    console.log("加载卡牌类型数据失败,"+json.errmsg)
+                }
+                //
+            },
+            error:function(){
+
+            }
+        });
+    };
 
 
     $(document).ready(function(){
+
+        bindMessageDetail();
+
         //绑定屏蔽留言的按钮
         $("#btn_sealMessage").click(function(){
 
